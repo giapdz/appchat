@@ -11,7 +11,7 @@ import {
 import {
     COLOR_PINK, COLOR_PINK_LIGHT, 
     COLOR_FACEBOOK, COLOR_PINK_MEDIUM} 
-from './myColors'
+from './auth/myColors'
 var {height, width} = Dimensions.get('window')
 const Splash = () =>{
     const navigation = useNavigation();
