@@ -1,11 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
-import {FlatList, ImageBackground, View, TouchableOpacity, Text, Alert} from 'react-native'
+import {FlatList, ImageBackground, View, TouchableOpacity, Text, Alert, TextInput} from 'react-native'
 import { useRoute } from '@react-navigation/native';
-import { Header } from 'react-native-elements';
-// import EmojiPicker from 'emoji-picker-react';
-// import Peer from "simple-peer"
-// import io from "socket.io-client"
-// import MessageItem from './MessageItem';
+
+import Peer from "simple-peer"
+import io from "socket.io-client"
 import Api from '../auth/Api';
 import firebase from 'firebase'
 import ChatMessage from './ChatMessage'
@@ -14,22 +12,11 @@ import BG from '../../images/BG.png'
 import {
     MaterialIcons,
     FontAwesome5,
+    AntDesign,
   } from '@expo/vector-icons';
-// const socket = io.connect('http://localhost:5000')
-// function LogoTitle() {
-//     return (
-//         <View style={{
-//             flexDirection: 'row',
-//             width: 100,
-//             justifyContent: 'space-between',
-//             marginRight: 10,
-//           }}>
-//             <FontAwesome5 name="video" size={24} color={'midnightblue'} />
-//             <MaterialIcons name="call" size={24} color={'midnightblue'} />
-//             <MaterialCommunityIcons name="dots-vertical" size={24} color={'midnightblue'} />
-//           </View>
-//     );
-//   }
+import CopyToClipboard from 'react-copy-to-clipboard';
+const socket = io.connect('http://localhost:5000')
+
 
 function ChatScreen({ navigation }) {
     function LogoTitle() {
@@ -40,7 +27,7 @@ function ChatScreen({ navigation }) {
                 justifyContent: 'space-between',
                 marginRight: 10,
               }}>
-                <FontAwesome5 name="video" size={24} color={'midnightblue'} onPress={() => Alert.alert('Video')} />
+                <FontAwesome5 name="video" size={24} color={'midnightblue'} onPress={() => Alert.alert('Video') } />
                 <MaterialIcons name="call" size={24} color={'midnightblue'} onPress={() => Alert.alert('Call')}/>
             
               </View>
@@ -103,8 +90,9 @@ function ChatScreen({ navigation }) {
     // }
 
 
-    // {/*Viseo*/}
-    // const [ me, setMe ] = useState("")
+    
+  // {/*Viseo*/}
+  // const [ me, setMe ] = useState("")
 	// const [ stream, setStream ] = useState()
 	// const [ receivingCall, setReceivingCall ] = useState(false)
 	// const [ caller, setCaller ] = useState("")
@@ -115,87 +103,87 @@ function ChatScreen({ navigation }) {
 	// const [ name, setName ] = useState("")
 	// const myVideo = useRef()
 	// const userVideo = useRef()
-    // const connectionRef = useRef()
+  // const connectionRef = useRef()
     
-    // useEffect(() => {
-    //     navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((stream) => {
-    //         setStream(stream)
-    //         myVideo.current.srcObject = stream
-    //     })
+  // useEffect(() => {
+  //     navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((stream) => {
+  //         setStream(stream)
+  //         myVideo.current.srcObject = stream
+  //     })
 
-    //     socket.on("me", (id) => {
-    //         setMe(id)
-    //     })
+  //     socket.on("me", (id) => {
+  //         setMe(id)
+  //     })
 
-    //     socket.on("callUser", (data) => {
-    //         setReceivingCall(true)
-    //         setCaller(data.from)
-    //         setName(data.name)
-    //         setCallerSignal(data.signal)
-    //     })
-    // }, [])
+  //        socket.on("callUser", (data) => {
+  //            setReceivingCall(true)
+  //            setCaller(data.from)
+  //            setName(data.name)
+  //            setCallerSignal(data.signal)
+  //        })
+  //    }, [])
 
-    // const callUser = (id) => {
-    //     const peer = new Peer({
-    //         initiator: true,
-    //         trickle: false,
-    //         stream: stream
-    //     })
-    //     peer.on("signal", (data) => {
-    //         socket.emit("callUser", {
-    //             userToCall: id,
-    //             signalData: data,
-    //             from: me,
-    //             name: name
-    //         })
-    //     })
-    //     peer.on("stream", (stream) => {
+  //    const callUser = (id) => {
+  //        const peer = new Peer({
+  //            initiator: true,
+  //            trickle: false,
+  //            stream: stream
+  //        })
+  //        peer.on("signal", (data) => {
+  //            socket.emit("callUser", {
+  //                userToCall: id,
+  //                signalData: data,
+  //                from: me,
+  //                name: name
+  //            })
+  //        })
+  //        peer.on("stream", (stream) => {
 
-    //         userVideo.current.srcObject = stream
+  //            userVideo.current.srcObject = stream
 
-    //     })
-    //     socket.on("callAccepted", (signal) => {
-    //         setCallAccepted(true)
-    //         peer.signal(signal)
-    //     })
+  //        })
+  //        socket.on("callAccepted", (signal) => {
+  //            setCallAccepted(true)
+  //            peer.signal(signal)
+  //        })
 
-    //     connectionRef.current = peer
-    // }
+  //        connectionRef.current = peer
+  //    }
 
-    // const answerCall = () => {
-    //     setCallAccepted(true)
-    //     const peer = new Peer({
-    //         initiator: false,
-    //         trickle: false,
-    //         stream: stream
-    //     })
-    //     peer.on("signal", (data) => {
-    //         socket.emit("answerCall", { signal: data, to: caller })
-    //     })
-    //     peer.on("stream", (stream) => {
-    //         userVideo.current.srcObject = stream
-    //     })
+  //    const answerCall = () => {
+  //        setCallAccepted(true)
+  //        const peer = new Peer({
+  //            initiator: false,
+  //            trickle: false,
+  //            stream: stream
+  //        })
+  //        peer.on("signal", (data) => {
+  //            socket.emit("answerCall", { signal: data, to: caller })
+  //        })
+  //        peer.on("stream", (stream) => {
+  //            userVideo.current.srcObject = stream
+  //        })
 
-    //     peer.signal(callerSignal)
-    //     connectionRef.current = peer
-    // }
+  //        peer.signal(callerSignal)
+  //        connectionRef.current = peer
+  //    }
 
-    // const leaveCall = () => {
-    //     setCallEnded(true)
-    //     connectionRef.current.destroy()
-    // }
+  //    const leaveCall = () => {
+  //        setCallEnded(true)
+  //        connectionRef.current.destroy()
+  //    }
     
-    // const [vidCon, setVidCon] = useState("");
+  //    const [vidCon, setVidCon] = useState("");
 
-    // const handleVideoOn = () => {
-    //     setVidCon(true)
-    // }
-
-    // const handleVideoOff = () => {
-    //     setVidCon(false)
-    // }
+  //    const handleVideoOn = () => {
+  //        setVidCon(true)
+  //   }
+  //   const handleVideoOff = () => {
+  //        setVidCon(false)
+  //    }
     
     const yourRef = useRef(null);
+   
    
     
     return (
@@ -209,7 +197,7 @@ function ChatScreen({ navigation }) {
           renderItem={({ item, key }) => <ChatMessage myId={user.id} message={item} index={key} />}
           keyExtractor={(item) => item.id}
         />
-  
+         
         <InputBox chatRoomID={route.params.id} />
         
       </ImageBackground>

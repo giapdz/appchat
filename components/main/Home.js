@@ -7,26 +7,26 @@ import TabChat from './TabChat';
 import { createStackNavigator } from '@react-navigation/stack';
 import {  DrawerActions } from '@react-navigation/native';
 const Tab = createBottomTabNavigator();
-const ContactStack = createStackNavigator();
 
-function ContactStackScreen({navigation}) {
-  return (
-    <ContactStack.Navigator>
-      <ContactStack.Screen
-        name="Contact"
-        component={TabContact}
-        options={{  headerLeft: () => (
-          < TouchableOpacity  style={{marginLeft: 5}}
-          onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
-          >
+
+// function ContactStackScreen({navigation}) {
+//   return (
+//     <ContactStack.Navigator>
+//       <ContactStack.Screen
+//         name="Contact"
+//         component={TabContact}
+//         options={{  headerLeft: () => (
+//           < TouchableOpacity  style={{marginLeft: 5}}
+//           onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
+//           >
               
-              <MaterialIcons name="menu" size={24} color="black" />
-          </TouchableOpacity >     
-        ) }}
-      />
-    </ContactStack.Navigator>
-  );
-}
+//               <MaterialIcons name="menu" size={24} color="black" />
+//           </TouchableOpacity >     
+//         ) }}
+//       />
+//     </ContactStack.Navigator>
+//   );
+// }
 function Home () {
   // function getHeaderTitle(route) {
   //   // If the focused route is not found, we need to assume it's the initial screen
@@ -61,7 +61,7 @@ function Home () {
                     <Ionicons name="chatbubble" size={24} color={color} />
                 ),
               })} />
-            <Tab.Screen name="Contact" component={ContactStackScreen}
+            <Tab.Screen name="Contact" component={TabContact}
              options={{
               tabBarLabel: 'Contact',
                 tabBarIcon: ({ color}) => (
