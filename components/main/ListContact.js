@@ -4,7 +4,7 @@ import Api from '../auth/Api';
 import firebase from 'firebase';
 import { useNavigation } from '@react-navigation/native';
 const db = firebase.firestore();
-function TabContact() {
+function ListContact() {
   
     const navigation = useNavigation();
     const [list, setList] = useState([])
@@ -149,7 +149,7 @@ function TabContact() {
 }
 
   
-export default TabContact
+export default ListContact;
 
 
 const styles = StyleSheet.create({

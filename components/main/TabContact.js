@@ -7,7 +7,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import {  DrawerActions } from '@react-navigation/native';
 const Stack = createStackNavigator();
 
-const TabChat = ({ navigation })=>{
+const TabContact = ({ navigation })=>{
  
   return (  
     <Stack.Navigator initialRouteName="Contact">
@@ -30,4 +30,4 @@ const TabChat = ({ navigation })=>{
     </Stack.Navigator>
   )
 }
-export default TabChat;
+export default TabContact;
