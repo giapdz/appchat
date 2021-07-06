@@ -16,9 +16,9 @@ from './myColors'
 import styles from "./styleTypes";
 import { loginSuccess } from '../../redux/actions/Authenticate';
 import * as firebase from 'firebase';
-import GGAPI from './apiGG'
-import LoginAPI from './apiFB';
-import firebaseConfig from './firebaseConfig';
+import GGAPI from '../Api/apiGG'
+import LoginAPI from '../Api/apiFB';
+import firebaseConfig from '../Api/firebaseConfig';
 import { connect } from 'react-redux';
 
 
@@ -27,7 +27,13 @@ import { connect } from 'react-redux';
 if (firebase.apps.length === 0) {
   firebase.initializeApp(firebaseConfig)
 }
-
+const Divider = (props) => {
+  return <View {...props}>
+    <View style={styles.line}></View>
+    <Text style={styles.textOR}>OR</Text>
+    <View style={styles.line}></View>
+  </View>
+}
 class LoginScreen extends Component {
   constructor(props) {
     super(props);
@@ -39,20 +45,7 @@ class LoginScreen extends Component {
     }
     this.onLogin = this.onLogin.bind(this)
   }
-  
-//   componentDidMount() {
-  
-//     this.unsubscriber = firebase.auth().onAuthStateChanged(changedUser => {
-//         console.log(`changed User : ${JSON.stringify(changedUser.toJSON())}`);
-//         this.setState({ user: changedUser });
-//         this.setState({isAuthenticated: true});
-//     });
-// }
-// componentWillUnmount() {
-//     if (this.unsubscriber) {
-//         this.unsubscriber();
-//     }
-// }
+
   
   onLogin = () => {
   firebase.auth()
@@ -89,13 +82,7 @@ class LoginScreen extends Component {
     };
     
     render() {
-    const Divider = (props) => {
-        return <View {...props}>
-          <View style={styles.line}></View>
-          <Text style={styles.textOR}>OR</Text>
-          <View style={styles.line}></View>
-        </View>
-    }
+ 
     
     return (
       //Do not dismiss Keyboard when click outside of TextInput

@@ -1,6 +1,5 @@
 import React, {useState, useEffect } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import ChatListItem from './ChatListItem'
 import firebase from 'firebase'
 import 'firebase/firestore';

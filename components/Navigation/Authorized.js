@@ -3,15 +3,15 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { Ionicons, AntDesign } from '@expo/vector-icons';
 import Home from './Home';
-import Profile from './Profile';
-import Setting from './Setting';
-import DrawerContent from '../DrawerContent';
-import DrawerButton from '../DrawerButton'
-const Drawer = createDrawerNavigator();
+import Profile from '../main/Profile/Profile';
+import Setting from '../main/Setting/Setting';
+import DrawerContent from '../main/DrawerContent';
+
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { fetchUser } from '../../redux/actions'
 
+const Drawer = createDrawerNavigator();
 export class Authorized extends Component {
   componentDidMount() {
     this.props.fetchUser();

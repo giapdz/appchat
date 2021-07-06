@@ -13,13 +13,13 @@ import {COLOR_PINK}  from './myColors'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import firebase from 'firebase'
 import "firebase/firestore";
-import firebaseConfig from './firebaseConfig';
-import Api from './Api'
+import firebaseConfig from '../Api/firebaseConfig';
 import styles from "./styleTypes";
 
 if (firebase.apps.length === 0) {
   firebase.initializeApp(firebaseConfig)
 }
+
 export class RegisterScreen extends Component {
     // navigation = useNavigation();
     constructor(props) {
@@ -69,15 +69,13 @@ export class RegisterScreen extends Component {
             })
 
     }
-    
-     Divider (props)  {
-        return <View {...props}>
-          <View style={styles.line}></View>
-          <Text style={styles.textOR}>OR</Text>
-          <View style={styles.line}></View>
-        </View>
+    Divider (props)  {
+      return <View {...props}>
+        <View style={styles.line}></View>
+        <Text style={styles.textOR}>OR</Text>
+        <View style={styles.line}></View>
+      </View>
     }
-
     render() {
         return (
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

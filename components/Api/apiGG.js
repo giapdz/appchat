@@ -26,7 +26,7 @@ const GGAPI = {
             .auth()
             .signInWithCredential(credential)
             .then(res => {
-              alert(`Login google success!`)
+              // alert(`Login google success!`)
             //   let user = firebase.auth().currentUser;
             //   let newUser = {
             //     id: user.uid,

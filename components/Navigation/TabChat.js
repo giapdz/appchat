@@ -1,17 +1,17 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack'
-import ListContact from './ListContact'
-import ChatScreen from './ChatScreen'
+import ListChat from '../main/Chat/ListChat'
+import ChatScreen from '../main/Chat/ChatScreen'
 import { TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import {  DrawerActions } from '@react-navigation/native';
 const Stack = createStackNavigator();
 
-const TabContact = ({ navigation })=>{
+const TabChat = ({ navigation })=>{
  
   return (  
-    <Stack.Navigator initialRouteName="Contact">
-    <Stack.Screen name="Contact" component={ListContact} 
+    <Stack.Navigator initialRouteName="List Chat">
+    <Stack.Screen name="List Chat" component={ListChat} 
     options={{
       headerShown:true,
       headerLeft: () => (
@@ -30,4 +30,4 @@ const TabContact = ({ navigation })=>{
     </Stack.Navigator>
   )
 }
-export default TabContact;
+export default TabChat;

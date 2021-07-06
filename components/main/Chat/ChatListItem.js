@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {
   StyleSheet,
   View,
@@ -15,7 +15,7 @@ const ChatListItem = (props) => {
   
     const navigation = useNavigation();
   
-  let authorName = (chatRoom.author== chatRoom.with) ? chatRoom.title : 'Bạn' 
+  let authorName = (chatRoom.author== chatRoom.with) ? chatRoom.title : 'You' 
   
     const onClick = () => {
       navigation.navigate('Chat', {

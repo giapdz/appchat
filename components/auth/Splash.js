@@ -11,7 +11,7 @@ import {
 import {
     COLOR_PINK, COLOR_PINK_LIGHT, 
     COLOR_FACEBOOK, COLOR_PINK_MEDIUM} 
-from './auth/myColors'
+from './myColors'
 var {height, width} = Dimensions.get('window')
 const Splash = () =>{
     const navigation = useNavigation();
@@ -44,7 +44,7 @@ const Splash = () =>{
    
         return ( 
             <View style={styles.container}>
-            <Animated.Image  source={require('../images/logo.png')}
+            <Animated.Image  source={require('../../images/logo.png')}
                 style={{...styles.logo, opacity: logoOpacity}}>                
             </Animated.Image>
             <Animated.Text style={{...styles.title, 

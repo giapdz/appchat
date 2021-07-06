@@ -4,18 +4,17 @@ import { useRoute } from '@react-navigation/native';
 
 import Peer from "simple-peer"
 import io from "socket.io-client"
-import Api from '../auth/Api';
+import Api from '../../Api/Api';
 import firebase from 'firebase'
 import ChatMessage from './ChatMessage'
 import InputBox from './InputBox'
-import BG from '../../images/BG.png'
+// import BG from '../../../images/BG.png'
 import {
     MaterialIcons,
     FontAwesome5,
-    AntDesign,
   } from '@expo/vector-icons';
-import CopyToClipboard from 'react-copy-to-clipboard';
-const socket = io.connect('http://localhost:5000')
+// import CopyToClipboard from 'react-copy-to-clipboard';
+// const socket = io.connect('http://localhost:5000')
 
 
 function ChatScreen({ navigation }) {
@@ -55,7 +54,6 @@ function ChatScreen({ navigation }) {
         let unsub = Api.onChatContent(route.params.id, setMessages, setUsers);
         return unsub;
     }, [route.params.id]);
-
     // useEffect(() => {
     //     if (body.current.scrollHeight > body.current.offsetHeight) {
     //         body.current.scrollTop = body.current.scrollheight - body.current.offsetHeight;
@@ -181,26 +179,62 @@ function ChatScreen({ navigation }) {
   //   const handleVideoOff = () => {
   //        setVidCon(false)
   //    }
-    
-    const yourRef = useRef(null);
-   
-   
-    
+  // const [useInverted, setUseInverted] = React.useState(false);
+  // const [reversing, setReversing] = React.useState(false);
+  
+  // const loadTop = React.useCallback(() => {
+  //     if (!useInverted) {
+  //         setUseInverted(true);
+  //         setReversing(true);
+  //     } else {
+  //        // Load old messages
+  //     }
+  // }, [useInverted]);
+  
+  // const loadBottom = React.useCallback(() => {
+  //     if (useInverted) {
+  //         setUseInverted(false);
+  //         setReversing(true);
+  //     } else {
+  //        // Load recent messages
+  //     }
+  // }, []);
+  
+  // React.useEffect(() => {
+  //         // Should be called after FlatList rerendered completely
+  //         if(reversing){
+  //             FlatList.current.scrollToEnd({ animated: false }); // <--- THIS doesn't work. List stays at start
+  //             if (useInverted) {
+  //                 loadTop();
+  //             }else{
+  //                 loadBottom();
+  //         }
+  // }
+  // }, [useInverted, loadBottom, loadTop ]);
+  const yourRef = useRef();
+    // useEffect(()=> {
+    //   setTimeout(() => {
+    //     yourRef.current.scrollToEnd();
+    //   });
+    // })
     return (
       
-        <ImageBackground style={{width: '100%', height: '100%'}} source={BG}>
+          <View style={{width: '100%', height: '100%'}} >
         <FlatList 
           ref={yourRef}
-          onContentSizeChange={() => yourRef.current.scrollToEnd() }
-          onLayout={() => yourRef.current.scrollToEnd( ) }
+          inverted={true}
+          // onContentSizeChange={() => yourRef.current.scrollToEnd({ animated: false, index: -1 })  }
+          // onLayout={() => yourRef.current.scrollToEnd( ) }
           data={messages}        
           renderItem={({ item, key }) => <ChatMessage myId={user.id} message={item} index={key} />}
           keyExtractor={(item) => item.id}
+          // Changing the key of the flatlist otherwise it doesn't update
+          
         />
          
         <InputBox chatRoomID={route.params.id} />
-        
-      </ImageBackground>
+        </View>
+     
                 
     );
 }

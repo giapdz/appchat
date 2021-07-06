@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, StyleSheet} from "react-native";
-import Api from '../auth/Api'
+import Api from '../../Api/Api'
 import firebase from 'firebase'
 import {
   MaterialCommunityIcons,

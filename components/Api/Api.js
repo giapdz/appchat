@@ -95,7 +95,7 @@ export default {
         return db.collection('chats').doc(chatId).onSnapshot((doc) => {
             if (doc.exists) {
                 let data = doc.data();
-                setList(data.messages);
+                setList(data.messages.reverse());
                 setUsers(data.users);
             }
         })

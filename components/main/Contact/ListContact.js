@@ -1,6 +1,6 @@
 import React, {useState, useEffect } from 'react';
 import { FlatList, StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import Api from '../auth/Api';
+import Api from '../../Api/Api';
 import firebase from 'firebase';
 import { useNavigation } from '@react-navigation/native';
 const db = firebase.firestore();
@@ -8,9 +8,8 @@ function ListContact() {
   
     const navigation = useNavigation();
     const [list, setList] = useState([])
-    // const user = firebase.auth().currentUser
     let u = firebase.auth().currentUser;
-                let user = {
+    let user = {
                 id: u.uid,
                 name: u.displayName,
                 avatar: u.photoURL,
@@ -18,14 +17,6 @@ function ListContact() {
                 };
     useEffect(() => {
         const getList = async () => {
-        //   let u = firebase.auth().currentUser;
-        //         let user = {
-        //         id: u.uid,
-        //         name: u.displayName,
-        //         avatar: u.photoURL,
-        //         email: u.email
-        //         };
-
             if (user !== null) {
                 let results = await Api.getContactList(user.id);
                 setList(results);
