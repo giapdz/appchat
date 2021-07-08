@@ -1,3 +1,5 @@
 # appchat
-#startapp 
+
+#How to run
+yarn or npm install
 expo start

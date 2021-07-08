@@ -1,9 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import {FlatList, ImageBackground, View, TouchableOpacity, Text, Alert, TextInput} from 'react-native'
 import { useRoute } from '@react-navigation/native';
-
-import Peer from "simple-peer"
-import io from "socket.io-client"
 import Api from '../../Api/Api';
 import firebase from 'firebase'
 import ChatMessage from './ChatMessage'
