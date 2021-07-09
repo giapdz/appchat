@@ -1,8 +1,6 @@
 import { Alert } from 'react-native';
 import * as Facebook from 'expo-facebook';
-import Api from './Api'
-import firebase from 'firebase'
-import firebaseConfig from './firebaseConfig';
+import { firebase } from './firebaseConfig';
 
   
 if (firebase.apps.length === 0) {

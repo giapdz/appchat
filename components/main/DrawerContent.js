@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { View, Image, Text } from 'react-native';
 // import { connect } from 'react-redux';
-import firebase from 'firebase'
+import { firebase } from '../Api/firebaseConfig';
 import {
     DrawerItemList,
-    DrawerItem,
   } from '@react-navigation/drawer';
 
 class DrawerContent extends Component {

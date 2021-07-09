@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import {FlatList, ImageBackground, View, TouchableOpacity, Text, Alert, TextInput} from 'react-native'
 import { useRoute } from '@react-navigation/native';
 import Api from '../../Api/Api';
-import firebase from 'firebase'
+import { firebase } from '../../Api/firebaseConfig';
 import ChatMessage from './ChatMessage'
 import InputBox from './InputBox'
 // import BG from '../../../images/BG.png'

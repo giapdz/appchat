@@ -1,14 +1,7 @@
-import firebase from 'firebase'
-import 'firebase/firestore';
-import { now } from 'moment';
-import firebaseConfig from './firebaseConfig'
 
+import { firebase } from './firebaseConfig';
 
-if (firebase.apps.length === 0) {
-    firebase.initializeApp(firebaseConfig)
-  }
-const db = firebase.firestore();
-
+const db = firebase.firestore(); 
 export default {
     addUser: async (user) => {
         await db.collection('users').doc(user.id).set({

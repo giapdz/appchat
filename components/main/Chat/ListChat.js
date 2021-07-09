@@ -1,8 +1,7 @@
 import React, {useState, useEffect } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 import ChatListItem from './ChatListItem'
-import firebase from 'firebase'
-import 'firebase/firestore';
+import { firebase } from '../../Api/firebaseConfig';
 
 function ListChat() {
     const [chatList, setChatList] = useState([]);

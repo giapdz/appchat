@@ -1,8 +1,9 @@
 import React, {useState, useEffect } from 'react';
 import { FlatList, StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import Api from '../../Api/Api';
-import firebase from 'firebase';
 import { useNavigation } from '@react-navigation/native';
+import { firebase } from '../../Api/firebaseConfig';
+
 const db = firebase.firestore();
 function ListContact() {
   

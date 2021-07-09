@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import * as firebase from 'firebase'
-import firebaseConfig from './components/Api/firebaseConfig';
+import { firebase } from './components/Api/firebaseConfig';
 import {NavigationContainer} from '@react-navigation/native'
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
@@ -15,9 +14,7 @@ LogBox.ignoreLogs(['Warning: ...']);
 LogBox.ignoreAllLogs();
 
 const store = createStore(Reducer, applyMiddleware(thunk))
-if (firebase.apps.length === 0) {
-  firebase.initializeApp(firebaseConfig)
-}
+
 export class App extends Component {
   constructor() {
     super()
