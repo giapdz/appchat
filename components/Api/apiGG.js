@@ -1,5 +1,5 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as AppAuth from "expo-app-auth";
+// import AsyncStorage from "@react-native-async-storage/async-storage";
+// import * as AppAuth from "expo-app-auth";
 import * as Google from "expo-google-app-auth";
 import { firebase } from './firebaseConfig';
 const config = {
@@ -47,57 +47,6 @@ const GGAPI = {
       // console.log('signInAsync', authState);
       // return authState;
   },
-  async cacheAuthAsync(authState) {
-      return await AsyncStorage.setItem(StorageKey, JSON.stringify(authState));
-  },
-  async getCachedAuthAsync() {
-      let value = await AsyncStorage.getItem(StorageKey);
-      let authState = JSON.parse(value);
-      if (authState) {
-          if (checkIfTokenExpired(authState)) {
-              return refreshAuthAsync(authState);
-          } else {
-              return authState;
-          }
-      }
-      return null;
-  },
-  checkIfTokenExpired({ accessTokenExpirationDate }) {
-      return new Date(accessTokenExpirationDate) < new Date();
-  },
-  checkIfTokenExpired({ accessTokenExpirationDate }) {
-      return new Date(accessTokenExpirationDate) < new Date();
-  },
-  async refreshAuthAsync({ refreshToken }) {
-      let authState = await AppAuth.refreshAsync(config, refreshToken);
-      console.log("refreshAuth", authState);
-      await cacheAuthAsync(authState);
-      return authState;
-  },
-  // async signOutAsync(props) {
-  //     const { accessToken } = props || {};
-
-  //     if (accessToken) {
-  //         try {
-  //             firebase.auth().signOut();
-
-  //             await AppAuth.revokeAsync(config, {
-  //                 token: accessToken,
-  //                 isClientIdProvided: true,
-  //             });
-  //             await AsyncStorage.removeItem(StorageKey);
-  //             requestLogout(accessToken)
-  //             return null;
-  //         } catch (e) {
-  //             alert(`Failed to revoke token: ${e.message}`);
-  //         }
-  //     } else {
-  //         try {
-  //             await AsyncStorage.removeItem(StorageKey);
-  //         } catch (e) {
-  //             alert(`Failed to revoke token: ${e.message}`);
-  //         }
-  //     }
-  // },
+  
 };
 export default GGAPI;
