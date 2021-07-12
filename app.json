@@ -33,7 +33,8 @@
         "googleSignIn": {
           "reservedClientId": "com.googleusercontent.apps.253659412928-88dt3v8h323amcg5dte302pbljd355g9"
         }
-    }
+    },
+    "googleServicesFile": "./GoogleService-Info.plist"
   }, 
     "android": {
       "adaptiveIcon": {
@@ -41,8 +42,14 @@
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.appchat",
-      "googleServicesFile": "./google-services.json"
-    },
+      "googleServicesFile": "./google-services.json",
+      "config": {
+        "googleSignIn": {
+          "apiKey": "AIzaSyBguUA97-0hSKqOeU1IjgxJ4RZbeae5wyE",
+          "certificateHash": "0A:D0:62:AD:41:78:C2:B9:94:E9:01:64:4D:FF:AA:70:1A:B2:E3:DE"
+      }
+    }
+  },
     "web": {
       "favicon": "./assets/favicon.png"
     }

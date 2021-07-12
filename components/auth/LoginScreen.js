@@ -14,19 +14,13 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import {COLOR_PINK, COLOR_FACEBOOK, COLOR_GOOGLE} 
 from './myColors'
 import styles from "./styleTypes";
-import { loginSuccess } from '../../redux/actions/Authenticate';
-import * as firebase from 'firebase';
+// import { loginSuccess } from '../../redux/actions/Authenticate';
 import GGAPI from '../Api/apiGG'
 import LoginAPI from '../Api/apiFB';
-import firebaseConfig from '../Api/firebaseConfig';
+import { firebase } from '../Api/firebaseConfig';
 import { connect } from 'react-redux';
 
 
-
-  
-if (firebase.apps.length === 0) {
-  firebase.initializeApp(firebaseConfig)
-}
 const Divider = (props) => {
   return <View {...props}>
     <View style={styles.line}></View>
@@ -45,7 +39,9 @@ class LoginScreen extends Component {
     }
     this.onLogin = this.onLogin.bind(this)
   }
-
+  // componentDidMount() {
+  //   GGAPI.initAsync();
+  // };
   
   onLogin = () => {
   firebase.auth()

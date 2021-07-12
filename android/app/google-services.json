@@ -8,18 +8,18 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:253659412928:android:4c181234eb40d069997025",
+        "mobilesdk_app_id": "1:253659412928:android:3a52a4576ae6e256997025",
         "android_client_info": {
           "package_name": "com.appchat"
         }
       },
       "oauth_client": [
         {
-          "client_id": "253659412928-258pf1mfl5bip7pm0u8matsfdjk1vedi.apps.googleusercontent.com",
+          "client_id": "253659412928-0tlugat44vtl5n4v8jbht356b2lqenmq.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.appchat",
-            "certificate_hash": "b72f2c76b8e332f6c8cc847407f8d9015a2e1b83"
+            "certificate_hash": "0ad062ad4178c2b994e901644dffaa701ab2e3de"
           }
         }
       ],

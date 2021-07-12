@@ -11,14 +11,10 @@ import {
 } from 'react-native'
 import {COLOR_PINK}  from './myColors'
 import Ionicons from 'react-native-vector-icons/Ionicons'
-import firebase from 'firebase'
-import "firebase/firestore";
+import { firebase } from '../Api/firebaseConfig';
 import firebaseConfig from '../Api/firebaseConfig';
 import styles from "./styleTypes";
 
-if (firebase.apps.length === 0) {
-  firebase.initializeApp(firebaseConfig)
-}
 
 export class RegisterScreen extends Component {
     // navigation = useNavigation();

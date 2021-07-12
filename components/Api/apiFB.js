@@ -2,10 +2,6 @@ import { Alert } from 'react-native';
 import * as Facebook from 'expo-facebook';
 import { firebase } from './firebaseConfig';
 
-  
-if (firebase.apps.length === 0) {
-    firebase.initializeApp(firebaseConfig)
-  }
 const LoginAPI = {
     async logIn() {
         try {
