@@ -94,7 +94,7 @@ export default {
         })
     },
 
-    sendMessage:async (chatId, userId, type, body, users) => {
+    sendMessage:async (chatId, userId,type, body, users) => {
         let now = new Date().toJSON()
 
         db.collection('chats').doc(chatId).update({

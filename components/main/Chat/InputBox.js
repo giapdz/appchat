@@ -1,5 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, StyleSheet} from "react-native";
+import * as DocumentPicker from 'expo-document-picker';
+import * as ImagePicker from "expo-image-picker";
 import Api from '../../Api/Api'
 import { firebase } from '../../Api/firebaseConfig';
 import {
@@ -16,8 +18,9 @@ const InputBox = (props) => {
   const [messages, setMessages] = useState([]);
    const [users, setUsers] = useState([]);
   const [message, setMessage] = useState('');
+  const [uploading, setUploading] =useState(false);
   const [myUserId, setMyUserId] = useState(null);
-
+  const [listening, setListening] = useState(false);
   useEffect(() => {
     const fetchUser = async () => {
       const userInfo = await firebase.auth().currentUser;
@@ -31,9 +34,28 @@ const InputBox = (props) => {
     return unsub;
 }, [chatRoomID]);
 
-const onMicrophonePress = () => {
-    console.warn('Microphone')
-  }
+// const onMicrophonePress = () => {
+//     console.warn('Microphone')
+//   }
+   let recognition = null;
+    let SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognition !== undefined) {
+        recognition = new SpeechRecognition();
+    }
+  const handleMicClick = () => {
+    if (recognition !== null) {
+        recognition.onstart = () => {
+            setListening(true);
+        }
+        recognition.onend = () => {
+            setListening(false);
+        }
+        recognition.onresult = (e) => {
+            setText(e.results[0][0].transcript);
+        }
+        recognition.start();
+    }
+}
  
   const handleInputKeyUp = (e) => {
     if (e.keyCode === 13) {
@@ -43,18 +65,109 @@ const onMicrophonePress = () => {
 
 const handleSendClick = () => {
     if (message !== '') {
-        Api.sendMessage(chatRoomID, myUserId, 'text', message, users);
+        Api.sendMessage(chatRoomID, myUserId,'text', message, users);
         setMessage('');
         
     }
 }
 const onPress = () => {
     if (!message) {
-      onMicrophonePress();
+      handleMicClick();
     } else {
         handleSendClick();
     }
   }
+  const _selectFile =async () => {
+   
+      const res = await DocumentPicker.getDocumentAsync({
+        
+      });
+      // Api.sendMessage(chatRoomID, myUserId,allFiles , uploadFile(res), users);
+      // setMessage('');
+      console.log(res);
+
+      if (!res.cancelled) {
+        
+        Api.sendMessage(chatRoomID, myUserId, 'document', res.uri , users);
+      }
+  }
+
+ const  _askPermission = async (failureMessage) => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (status === "denied") {
+      alert(failureMessage);
+    }
+  };
+  const _takePhoto = async () => {
+    await _askPermission(
+      "We need the camera permission to take a picture..."
+    );
+    let pickerResult = await ImagePicker.launchCameraAsync({
+      base64: true,
+      aspect: [4, 3],
+    });
+
+    _handleImagePicked(pickerResult);
+  }
+
+  const _pickImage = async() => {
+    await _askPermission(
+      "We need the camera-roll permission to read pictures from your phone..."
+    );
+
+    let pickerResult = await ImagePicker.launchImageLibraryAsync({
+      base64: true,
+      aspect: [4, 3],
+    });
+
+    _handleImagePicked(pickerResult);
+  }
+
+  const _handleImagePicked = async (pickerResult) => {
+    try {
+      setUploading(true);
+
+      if (!pickerResult.cancelled) {
+        let imageUri = pickerResult ? `data:image/jpg;base64,${pickerResult.base64}` : null;
+        Api.sendMessage(chatRoomID, myUserId,'photo', imageUri , users);
+        setMessage('');
+      }
+                
+    } catch (e) {
+      console.log(e);
+      alert("Upload failed, sorry :(");
+    } finally {
+       setUploading(false );
+    }
+  };
+
+
+// async function uploadImageAsync(uri) {
+//   // Why are we using XMLHttpRequest? See:
+//   // https://github.com/expo/expo/issues/2402#issuecomment-443726662
+//   const blob = await new Promise((resolve, reject) => {
+//     const xhr = new XMLHttpRequest();
+//     xhr.onload = function () {
+//       resolve(xhr.response);
+//     };
+//     xhr.onerror = function (e) {
+//       console.log(e);
+//       reject(new TypeError("Network request failed"));
+//     };
+//     xhr.responseType = "blob";
+//     xhr.open("GET", uri, true);
+//     xhr.send(null);
+//   });
+
+//   const ref = firebase.storage().ref().child(uuid.v4());
+//   const snapshot = await ref.put(blob);
+
+//   // We're done with the blob, close and release it
+//   blob.close();
+
+//   return await snapshot.ref.getDownloadURL();
+// }
 
   return (
     <KeyboardAvoidingView
@@ -64,7 +177,9 @@ const onPress = () => {
     >
       <View style={styles.container}>
       <View style={styles.mainContainer}>
+        <TouchableOpacity>
         <FontAwesome5 name="laugh-beam" size={24} color="grey" />
+        </TouchableOpacity>
         <TextInput
           placeholder={"Type a message"}
           style={styles.textInput}
@@ -72,14 +187,21 @@ const onPress = () => {
           onChangeText={setMessage}
           onKeyUp={handleInputKeyUp}
         />
+        <TouchableOpacity onPress={_selectFile}>
         <Entypo name="attachment" size={24} color="grey" style={styles.icon} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={_pickImage}>
+        {!message && <Entypo name="image" size={24} color="grey" style={styles.icon} />}
+        </TouchableOpacity>
+        <TouchableOpacity onPress={_takePhoto}>
         {!message && <Fontisto name="camera" size={24} color="grey" style={styles.icon} />}
+        </TouchableOpacity>
       </View>
       <TouchableOpacity onPress={onPress}>
         <View style={styles.buttonContainer}>
           {!message
-            ? <MaterialCommunityIcons name="microphone" size={25} color="white" />
-            : <MaterialIcons name="send" size={28} color="white" />}
+            ? <MaterialCommunityIcons name="microphone" size={24} color={ listening ? "#126EcE":"#919191"} />
+            : <MaterialIcons name="send" size={26} color="white" />}
         </View>
       </TouchableOpacity>
       </View>
@@ -88,36 +210,35 @@ const onPress = () => {
 }
 
 export default InputBox;
+  
 const styles = StyleSheet.create({
-    container: {
-      flexDirection: 'row',
-      margin: 10,
-      alignItems: 'flex-end',
-    },
-    mainContainer: {
-      flexDirection: 'row',
-      backgroundColor: 'white',
-      padding: 10,
-      borderRadius: 25,
-      marginRight: 10,
-      flex: 1,
-      alignItems: 'flex-end',
-    },
-    textInput: {
-      flex: 1,
-      marginHorizontal: 10
-    },
-    icon: {
-      marginHorizontal: 5,
-    },
-    buttonContainer: {
-      backgroundColor: '#0C6157',
-      borderRadius: 25,
-      width: 50,
-      height: 50,
-      justifyContent: 'center',
-      alignItems: 'center',
-    }
-  })
-  
-  
+  container: {
+    flexDirection: 'row',
+    margin: 10,
+    alignItems: 'flex-end',
+  },
+  mainContainer: {
+    flexDirection: 'row',
+    backgroundColor: 'white',
+    padding: 10,
+    borderRadius: 25,
+    marginRight: 10,
+    flex: 1,
+    alignItems: 'flex-end',
+  },
+  textInput: {
+    flex: 1,
+    marginHorizontal: 10
+  },
+  icon: {
+    marginHorizontal: 5,
+  },
+  buttonContainer: {
+    backgroundColor: '#0C6157',
+    borderRadius: 25,
+    width: 50,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
+})

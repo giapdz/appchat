@@ -10,7 +10,7 @@ import Authorized from './components/Navigation/Authorized';
 import Unauthorized from './components/Navigation/Unauthorized';
 import { LogBox } from 'react-native';
 
-LogBox.ignoreLogs(['Warning: ...']); 
+LogBox.ignoreLogs([`Setting a timer for a long period`]);
 LogBox.ignoreAllLogs();
 
 const store = createStore(Reducer, applyMiddleware(thunk))
