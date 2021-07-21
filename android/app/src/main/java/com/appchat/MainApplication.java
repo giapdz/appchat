@@ -45,7 +45,11 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
     @Override
     protected List<ReactPackage> getPackages() {
       List<ReactPackage> packages = new PackageList(this).getPackages();
-      packages.add(new ModuleRegistryAdapter(mModuleRegistryProvider));
+      // packages.add(new ModuleRegistryAdapter(mModuleRegistryProvider));
+      List<ReactPackage> unimodules = Arrays.<ReactPackage>asList(
+            new ModuleRegistryAdapter(mModuleRegistryProvider)
+          );
+          packages.addAll(unimodules);
       // packages.add(new ReactNativeFirebaseFirestorePackage());
       return packages;
     }

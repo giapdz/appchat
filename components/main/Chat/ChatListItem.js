@@ -12,7 +12,7 @@ import { useNavigation } from '@react-navigation/native';
 
 const ChatListItem = (props) => {
     const { chatRoom } = props;
-  
+    let message=chatRoom.lastMessage;
     const navigation = useNavigation();
   
   let authorName = (chatRoom.author== chatRoom.with) ? chatRoom.title : 'You' 
@@ -39,9 +39,16 @@ const ChatListItem = (props) => {
               <Text
                 numberOfLines={2}
                 style={styles.lastMessage}>
-                {chatRoom.lastMessage
-                  ? `${authorName}: ${chatRoom.lastMessage}`
-                  : ""}
+                {(() => {
+                if(message && !String(message).includes('data:image/jpg')) {
+                  return ( `${authorName}: ${chatRoom.lastMessage}`)
+                }
+                
+                else if ( String(message).includes('data:image/jpg')) {
+                  return ( `${authorName}: sent a photo`)
+                }
+                else if(!message) return (" ")
+                })()}
               </Text>
             </View>
   
