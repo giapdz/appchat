@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
+import {Text} from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { Ionicons, AntDesign } from '@expo/vector-icons';
 import Home from './Home';
-import Profile from '../main/Profile/Profile';
+import TabProfile from './TabProfile'
 import Setting from '../main/Setting/Setting';
 import DrawerContent from '../main/DrawerContent';
-
+import { firebase } from '../Api/firebaseConfig';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { fetchUser } from '../../redux/actions'
+import {  TouchableNativeFeedback } from 'react-native-gesture-handler';
 
 const Drawer = createDrawerNavigator();
 export class Authorized extends Component {
@@ -41,13 +42,14 @@ render() {
     
       })
     } />
-      <Drawer.Screen name="Profile" component={Profile} 
+      <Drawer.Screen name="TabProfile" component={TabProfile} 
       options={{
         drawerIcon: ({ color, size }) => (
           <AntDesign name="profile" size={24} color={color} />
         ),
         title: 'Profile',
-        headerShown: true,
+        headerTitleAlign: 'center',
+        headerShown: false,
         
       }} />
       <Drawer.Screen name="Setting" component={Setting} 
@@ -56,8 +58,14 @@ render() {
           <AntDesign name="setting" size={24} color={color} />
         ),
         title: 'Setting',
+        headerTitleAlign: 'center',
         headerShown: true,
-       
+        headerRight: () => (
+        <TouchableNativeFeedback
+        onPress={()=> firebase.auth().signOut()}>
+          <Text style={{fontSize: 18, color: `#6495ed`, fontWeight:'bold'}}>Log out</Text>
+        </TouchableNativeFeedback>
+        ),
       }} />
     </Drawer.Navigator>
     

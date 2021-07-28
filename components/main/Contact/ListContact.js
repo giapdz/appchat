@@ -9,17 +9,11 @@ function ListContact() {
   
     const navigation = useNavigation();
     const [list, setList] = useState([])
-    let u = firebase.auth().currentUser;
-    let user = {
-                id: u.uid,
-                name: u.displayName,
-                avatar: u.photoURL,
-                email: u.email
-                };
+    let user = firebase.auth().currentUser;
     useEffect(() => {
         const getList = async () => {
             if (user !== null) {
-                let results = await Api.getContactList(user.id);
+                let results = await Api.getContactList(user.uid);
                 setList(results);
             }
         }

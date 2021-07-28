@@ -5,17 +5,12 @@ import { firebase } from '../../Api/firebaseConfig';
 
 function ListChat() {
     const [chatList, setChatList] = useState([]);
-    let u = firebase.auth().currentUser;
-    let user = {
-        id: u.uid,
-        name: u.displayName,
-        avatar: u.photoURL,
-        email: u.email
-    };
+    let user = firebase.auth().currentUser;
+
      useEffect(() => {
         const getList = async () => {
             if (user !== null) {
-                firebase.firestore().collection('users').doc(user.id).onSnapshot((doc) => {
+                firebase.firestore().collection('users').doc(user.uid).onSnapshot((doc) => {
                     if (doc.exists) {
                         let data = doc.data();
                         if (data.chats){
@@ -44,13 +39,13 @@ function ListChat() {
 export default ListChat
 
 
-const styles = StyleSheet.create({
-  flatListItem: {
-      color: 'black',
-      paddingTop: 20,
-      paddingLeft:10,
-      paddingBottom: 20,
-      fontSize: 16,
-      fontWeight: 'bold'  
-  }
-});
+// const styles = StyleSheet.create({
+//   flatListItem: {
+//       color: 'black',
+//       paddingTop: 20,
+//       paddingLeft:10,
+//       paddingBottom: 20,
+//       fontSize: 16,
+//       fontWeight: 'bold'  
+//   }
+// });

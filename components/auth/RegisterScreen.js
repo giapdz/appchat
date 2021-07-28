@@ -12,7 +12,6 @@ import {
 import {COLOR_PINK}  from './myColors'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { firebase } from '../Api/firebaseConfig';
-import firebaseConfig from '../Api/firebaseConfig';
 import styles from "./styleTypes";
 
 

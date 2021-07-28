@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, StyleSheet} from "react-native";
+import {View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, StyleSheet, PermissionsAndroid} from "react-native";
 import * as DocumentPicker from 'expo-document-picker';
 import * as ImagePicker from "expo-image-picker";
-import Api from '../../Api/Api'
+import * as Permissions from 'expo-permissions';
+import { Audio } from 'expo-av';
+import Api from '../../Api/Api';
 import { firebase } from '../../Api/firebaseConfig';
 import {
   MaterialCommunityIcons,
@@ -20,7 +22,8 @@ const InputBox = (props) => {
   const [message, setMessage] = useState('');
   const [uploading, setUploading] =useState(false);
   const [myUserId, setMyUserId] = useState(null);
-  const [listening, setListening] = useState(false);
+  const [recording, setRecording] = useState();
+
   useEffect(() => {
     const fetchUser = async () => {
       const userInfo = await firebase.auth().currentUser;
@@ -34,27 +37,40 @@ const InputBox = (props) => {
     return unsub;
 }, [chatRoomID]);
 
-// const onMicrophonePress = () => {
-//     console.warn('Microphone')
-//   }
-   let recognition = null;
-    let SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (SpeechRecognition !== undefined) {
-        recognition = new SpeechRecognition();
-    }
-  const handleMicClick = () => {
-    if (recognition !== null) {
-        recognition.onstart = () => {
-            setListening(true);
-        }
-        recognition.onend = () => {
-            setListening(false);
-        }
-        recognition.onresult = (e) => {
-            setText(e.results[0][0].transcript);
-        }
-        recognition.start();
-    }
+async function startRecording() {
+  const { status, permissions } = await Permissions.askAsync(Permissions.AUDIO_RECORDING);
+  if(status === 'granted') {
+    console.log('Requesting permissions..');
+    await Audio.requestPermissionsAsync();
+    await Audio.setAudioModeAsync({
+      allowsRecordingIOS: true,
+      playsInSilentModeIOS: true,
+    }); 
+    console.log('Starting recording..');
+    const { recording } = await Audio.Recording.createAsync(
+       Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY
+    );
+    setRecording(recording);
+    console.log('Recording started');
+  } else  {
+    throw new Error('Location permission not granted');
+  }
+}
+async function stopRecording() {
+  await Audio.setAudioModeAsync({
+    allowsRecordingIOS: true,
+    interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
+    playsInSilentModeIOS: true,
+    playsInSilentLockedModeIOS: true,
+    shouldDuckAndroid: true,
+    interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
+  });
+
+  setRecording(undefined);
+  await recording.stopAndUnloadAsync();
+  const uri = recording.getURI();
+  await Api.sendMessage(chatRoomID, myUserId,'sound', uri, users);
+  console.log('Recording stopped and stored at', uri);
 }
  
   const handleInputKeyUp = (e) => {
@@ -70,13 +86,13 @@ const handleSendClick = () => {
         
     }
 }
-const onPress = () => {
-    if (!message) {
-      handleMicClick();
-    } else {
-        handleSendClick();
-    }
-  }
+// const onPress = () => {
+//     if (!message) {
+//       handleMicClick();
+//     } else {
+//         handleSendClick();
+//     }
+//   }
   const _selectFile =async () => {
    
       const res = await DocumentPicker.getDocumentAsync({
@@ -92,7 +108,7 @@ const onPress = () => {
       }
   }
 
- const  _askPermission = async (failureMessage) => {
+ const  _askPermission = async (failureMessage) => { 
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
     if (status === "denied") {
@@ -142,33 +158,6 @@ const onPress = () => {
     }
   };
 
-
-// async function uploadImageAsync(uri) {
-//   // Why are we using XMLHttpRequest? See:
-//   // https://github.com/expo/expo/issues/2402#issuecomment-443726662
-//   const blob = await new Promise((resolve, reject) => {
-//     const xhr = new XMLHttpRequest();
-//     xhr.onload = function () {
-//       resolve(xhr.response);
-//     };
-//     xhr.onerror = function (e) {
-//       console.log(e);
-//       reject(new TypeError("Network request failed"));
-//     };
-//     xhr.responseType = "blob";
-//     xhr.open("GET", uri, true);
-//     xhr.send(null);
-//   });
-
-//   const ref = firebase.storage().ref().child(uuid.v4());
-//   const snapshot = await ref.put(blob);
-
-//   // We're done with the blob, close and release it
-//   blob.close();
-
-//   return await snapshot.ref.getDownloadURL();
-// }
-
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS == "ios" ? "padding" : "height"}
@@ -197,13 +186,19 @@ const onPress = () => {
         {!message && <Fontisto name="camera" size={24} color="grey" style={styles.icon} />}
         </TouchableOpacity>
       </View>
-      <TouchableOpacity onPress={onPress}>
+      
         <View style={styles.buttonContainer}>
           {!message
-            ? <MaterialCommunityIcons name="microphone" size={24} color={ listening ? "#126EcE":"#919191"} />
-            : <MaterialIcons name="send" size={26} color="white" />}
+            ? <TouchableOpacity
+               onPressIn={startRecording}
+               onPressOut={stopRecording}>
+              <MaterialCommunityIcons name="microphone" size={24} color={ recording ? "#126EcE":"#919191"} />
+              </TouchableOpacity>
+            : <TouchableOpacity onPress={handleSendClick}>
+              <MaterialIcons name="send" size={26} color="white" />
+            </TouchableOpacity>
+            }
         </View>
-      </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
   )

@@ -40,14 +40,14 @@ const ChatListItem = (props) => {
                 numberOfLines={2}
                 style={styles.lastMessage}>
                 {(() => {
-                if(message && !String(message).includes('data:image/jpg')) {
-                  return ( `${authorName}: ${chatRoom.lastMessage}`)
+                if ( String(message).includes('data:image/jpg')) {
+                  return ( `${authorName} sent a photo`)
                 }
-                
-                else if ( String(message).includes('data:image/jpg')) {
-                  return ( `${authorName}: sent a photo`)
+                else if( String(message).includes('/Audio/recording')) {
+                  return ( `${authorName} sent a voice message`)
                 }
                 else if(!message) return (" ")
+                else { return ( `${authorName}: ${chatRoom.lastMessage}`)}
                 })()}
               </Text>
             </View>

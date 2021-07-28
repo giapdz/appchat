@@ -52,6 +52,7 @@ class LoginScreen extends Component {
           this.setState({
             loggedIn: true,
           })
+          // console.log(user)
       }).catch((error) => {
           console.log(`Login fail with error: ${error}`);
       });

@@ -10,6 +10,42 @@ export default {
             email: user.email
         }, { merge: true });
     },
+    getUserDetails: () => {
+        let user = firebase.auth().currentUser
+        return db
+          .collection('users')
+          .doc(user.uid)
+          .get()
+          .then(function(doc) {
+            let userDetails = doc.data()
+            return userDetails
+          })
+          .catch(function(error) {
+            console.log('Error getting documents: ', error)
+          })
+      },
+      uploadAvatar: async (avatarImage) => { 
+        let user = firebase.auth().currentUser
+      
+        await db
+          .collection('users')
+          .doc(user.uid)
+          .update({
+            avatar: avatarImage
+          })
+          firebase.auth().currentUser.updateProfile({
+            photoURL: avatarImage,
+          })
+      },
+      checkUser: async (userId) => {
+        let results = await db.collection('users').get();
+        results.forEach(result => {
+            if (result.id == userId) {
+                return true;
+            }
+            else return false;
+        });
+      },
     getContactList: async (userId) => {
         let list = [];
 
