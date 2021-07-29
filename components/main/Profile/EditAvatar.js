@@ -8,63 +8,7 @@ const EditAvatar= ()=> {
   
   const [avatarImage, setAvatarImage] =useState(null); 
   const navigation = useNavigation();
-  //   _askPermission = async (failureMessage) => { 
-  //   const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-
-  //   if (status === "denied") {
-  //     alert(failureMessage);
-  //   }
-  // };
-  //  _takePhoto = async () => {
-  //   await _askPermission(
-  //     "We need the camera permission to take a picture..."
-  //   );
-  //   const options = {
-  //     noData: true
-  //   }
-  //    await  ImagePicker.launchCameraAsync(options, response => {
-  //     if (response.didCancel) {
-  //       console.log('User cancelled image picker')
-  //     } else if (response.error) {
-  //       console.log('ImagePicker Error: ', response.error)
-  //     } else if (response.customButton) {
-  //       console.log('User tapped custom button: ', response.customButton)
-  //     } else {
-  //       const source = { uri: response.uri }
-  //       // console.log(source)
-  //       this.setState({
-  //         avatarImage: source
-  //       })
-  //     }
-  //   })
-
-  // }
-
-  //  _pickImage = async() => {
-  //   await _askPermission(
-  //     "We need the camera-roll permission to read pictures from your phone..."
-  //   );
-  //   const options = {
-  //     noData: true
-  //   }
-  //    ImagePicker.launchImageLibraryAsync(options, response => {
-  //     if (response.didCancel) {
-  //       console.log('User cancelled image picker')
-  //     } else if (response.error) {
-  //       console.log('ImagePicker Error: ', response.error)
-  //     } else if (response.customButton) {
-  //       console.log('User tapped custom button: ', response.customButton)
-  //     } else {
-  //       const source = { uri: response.uri }
-  //       // console.log(source)
-  //       this.setState({
-  //         avatarImage: source
-  //       })
-  //     }
-  //   })
-
-    
-  // }
+  
   const _askPermission = async (failureMessage) => { 
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 

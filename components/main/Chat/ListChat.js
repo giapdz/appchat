@@ -5,12 +5,13 @@ import { firebase } from '../../Api/firebaseConfig';
 
 function ListChat() {
     const [chatList, setChatList] = useState([]);
-    let user = firebase.auth().currentUser;
+    let u = firebase.auth().currentUser;
+    let user = { id: u.uid };
 
      useEffect(() => {
         const getList = async () => {
             if (user !== null) {
-                firebase.firestore().collection('users').doc(user.uid).onSnapshot((doc) => {
+                firebase.firestore().collection('users').doc(user.id).onSnapshot((doc) => {
                     if (doc.exists) {
                         let data = doc.data();
                         if (data.chats){

@@ -10,7 +10,7 @@ export default {
             email: user.email
         }, { merge: true });
     },
-    getUserDetails: () => {
+    getUserDetails: async() => {
         let user = firebase.auth().currentUser
         return db
           .collection('users')
@@ -24,7 +24,7 @@ export default {
             console.log('Error getting documents: ', error)
           })
       },
-      uploadAvatar: async (avatarImage) => { 
+      uploadAvatar: async(avatarImage) => { 
         let user = firebase.auth().currentUser
       
         await db
@@ -36,6 +36,25 @@ export default {
           firebase.auth().currentUser.updateProfile({
             photoURL: avatarImage,
           })
+          let results = await db.collection('users').get();
+          results.forEach(result => {
+            let data = result.data();
+            if (result.id !== user.uid) {
+                    if (data.chats) {
+                        let chats = [...data.chats];
+                        for (let e in chats) {
+                            if (chats[e].with == user.uid) {
+                                chats[e].image = avatarImage;
+                            }
+                        }
+        
+                         db.collection('users').doc(result.id).update({
+                            chats
+                        });
+                    }
+                }
+            })
+        
       },
       checkUser: async (userId) => {
         let results = await db.collection('users').get();
