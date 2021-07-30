@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 const GettingCall = (props) => {
     return (
         <View style={styles.container}>
-       <Image></Image>
+       <Image source= {require('../../../images/backGroundImage.jpg')} style={styles.image}></Image>
        <View style={styles.bcontainer}>
            
                <TouchableOpacity onPress={props.join}  style={styles.buttonCallStart}>

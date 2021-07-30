@@ -192,7 +192,7 @@ const handleSendClick = () => {
             ? <TouchableOpacity
                onPressIn={startRecording}
                onPressOut={stopRecording}>
-              <MaterialCommunityIcons name="microphone" size={24} color={ recording ? "#126EcE":"#919191"} />
+              <MaterialCommunityIcons name="microphone" size={24} color={ recording ? "white":"#919191"} />
               </TouchableOpacity>
             : <TouchableOpacity onPress={handleSendClick}>
               <MaterialIcons name="send" size={26} color="white" />
