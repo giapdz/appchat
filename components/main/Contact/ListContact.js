@@ -87,7 +87,7 @@ function ListContact() {
                     // <FlatListItem item={item} index={index}>
 
                     // </FlatListItem>
-                    <TouchableOpacity onPress={() => addNewChat(item)} style={{
+                    <TouchableOpacity onPress={async() => await addNewChat(item)} style={{
                       flex: 1,
                       flexDirection:'column',                                
                   }}>            

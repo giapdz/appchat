@@ -22,7 +22,7 @@ const InputBox = (props) => {
   const [message, setMessage] = useState('');
   const [uploading, setUploading] =useState(false);
   const [myUserId, setMyUserId] = useState(null);
-  const [recording, setRecording] = useState();
+  // const [recording, setRecording] = useState();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -36,6 +36,7 @@ const InputBox = (props) => {
     let unsub = Api.onChatContent(chatRoomID, setMessages, setUsers);
     return unsub;
 }, [chatRoomID]);
+let recording = new Audio.Recording();
 
 async function startRecording() {
   const { status, permissions } = await Permissions.askAsync(Permissions.AUDIO_RECORDING);
@@ -47,10 +48,10 @@ async function startRecording() {
       playsInSilentModeIOS: true,
     }); 
     console.log('Starting recording..');
-    const { recording } = await Audio.Recording.createAsync(
-       Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY
+    await recording.prepareToRecordAsync(
+      Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY
     );
-    setRecording(recording);
+    await recording.startAsync();
     console.log('Recording started');
   } else  {
     throw new Error('Location permission not granted');
@@ -66,7 +67,6 @@ async function stopRecording() {
     interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
   });
 
-  setRecording(undefined);
   await recording.stopAndUnloadAsync();
   const uri = recording.getURI();
   await Api.sendMessage(chatRoomID, myUserId,'sound', uri, users);
