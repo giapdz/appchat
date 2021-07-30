@@ -11,9 +11,12 @@ function ListContact() {
     const [list, setList] = useState([])
     // let user = firebase.auth().currentUser;
     let u = firebase.auth().currentUser;
-    let user = {
-                id: u.uid,
-                };
+        let user = {
+                    id: u.uid,
+                    name: u.displayName,
+                    avatar: u.photoURL,
+                    email: u.email
+                    };
     useEffect(() => {
         const getList = async () => {
             if (user !== null) {

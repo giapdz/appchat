@@ -13,7 +13,7 @@ import {COLOR_PINK}  from './myColors'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { firebase } from '../Api/firebaseConfig';
 import styles from "./styleTypes";
-
+import Api from '../Api/Api'
 
 export class RegisterScreen extends Component {
     // navigation = useNavigation();
@@ -37,18 +37,18 @@ export class RegisterScreen extends Component {
                firebase.auth().currentUser.updateProfile({
                   displayName: name,
                   photoURL: "https://static2.yan.vn/YanNews/2167221/202102/facebook-cap-nhat-avatar-doi-voi-tai-khoan-khong-su-dung-anh-dai-dien-e4abd14d.jpg",
-                }).then()
-              //   .then(() => {
-              //     let user = firebase.auth().currentUser;
-              //     let newUser = {
-              //   id: user.uid,
-              //   name: user.displayName,
-              //   avatar: user.photoURL,
-              //   email: user.email
-              //   };
-              //  Api.addUser(newUser);
+                })
+                .then(() => {
+                  let user = firebase.auth().currentUser;
+                  let newUser = {
+                id: user.uid,
+                name: user.displayName,
+                avatar: user.photoURL,
+                email: user.email
+                };
+               Api.addUser(newUser);
               
-              // })
+              })
               })
              
             .catch((error) => {
