@@ -26,13 +26,14 @@ function ChatScreen({ navigation }) {
                 marginRight: 10,
               }}>
                 <FontAwesome5 name="video" size={24} color={'midnightblue'} onPress={create} />
-                <MaterialIcons name="call" size={24} color={'midnightblue'} onPress={() => Alert.alert('Call')}/>
+                <MaterialIcons name="call" size={24} color={'midnightblue'} onPress={() => createAudioCall}/>
             
               </View>
         );
       }
     const [messages, setMessages] = useState([]);
     const [users, setUsers] = useState([]);
+    const [isVideoCall , setIsVideoCall] = useState(true);
 
     const route = useRoute();
     // const body = useRef();
@@ -87,7 +88,7 @@ function ChatScreen({ navigation }) {
     }, []);
     const setupWebrtc = async () => {
         pc.current = new RTCPeerConnection(configuration);
-        const stream = await Utils.getStream();
+        const stream = await Utils.getStream(isVideoCall);
         if (stream) {
             setLocalStream(stream);
             pc.current.addStream(stream);
@@ -114,6 +115,12 @@ function ChatScreen({ navigation }) {
             cRef.set(cWithOffer);
         }
     };
+
+    const createAudioCall = () => {
+        setIsVideoCall(false);
+        create();
+    }
+
     const join = async () => {
         console.log("Joining the call");
         connecting.current = true;
