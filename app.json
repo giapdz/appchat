@@ -12,13 +12,16 @@
     },
     "extra": {
       "firebase": {
-        "apiKey": "AIzaSyBdMczlDG1ME1Iw9sBrrtvj0IUn9xbNGi8",
-        "authDomain": "app-chat-a35c2.firebaseapp.com",
-        "databaseURL": "https://app-chat-a35c2.asia-southeast2.firebasedatabase.app",
-        "projectId": "app-chat-a35c2",
-        "storageBucket": "app-chat-a35c2.appspot.com"
+        "apiKey": "AIzaSyBy0pcwK5wIlDKON7-Kq_llIUc2anYruvc",
+        "authDomain": "wemarket-a8540.firebaseapp.com",
+        "databaseURL": "https://wemarket-a8540-default-rtdb.asia-southeast1.firebasedatabase.app",
+        "projectId": "wemarket-a8540",
+        "storageBucket": "wemarket-a8540.appspot.com",
+        "messagingSenderId": "670210428924",
+        "appId": "1:670210428924:web:505e786bfa91db254cec79",
+        "measurementId": "G-9XN3R9WJDN"
       }
-      
+
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -28,28 +31,28 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.appchat",
+      "bundleIdentifier": "com.wemarket",
       "config": {
         "googleSignIn": {
           "reservedClientId": "com.googleusercontent.apps.253659412928-88dt3v8h323amcg5dte302pbljd355g9"
         }
+      },
+      "googleServicesFile": "./GoogleService-Info.plist"
     },
-    "googleServicesFile": "./GoogleService-Info.plist"
-  }, 
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.appchat",
+      "package": "com.wemarket",
       "googleServicesFile": "./google-services.json",
       "config": {
         "googleSignIn": {
-          "apiKey": "AIzaSyBguUA97-0hSKqOeU1IjgxJ4RZbeae5wyE",
-          "certificateHash": "0A:D0:62:AD:41:78:C2:B9:94:E9:01:64:4D:FF:AA:70:1A:B2:E3:DE"
+          "apiKey": "AIzaSyDZarldfQecJIwIn2L-1uvCIRahBo4b1IQ",
+          "certificateHash": "81:ef:85:c6:08:a5:57:48:ce:71:f9:f2:48:bc:2d:1f:17:58:da:14"
+        }
       }
-    }
-  },
+    },
     "web": {
       "favicon": "./assets/favicon.png"
     }
